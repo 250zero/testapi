@@ -37,4 +37,15 @@ class ContactController{
             ]
             ]);
     }
+    public function create(){
+        return json_encode(['status'=>200,'message'=>'Ok']);
+    }
+    public function update(){
+        return json_encode(['status'=>200,'message'=>'Ok']);
+        
+    }
+    public function delete(){
+        return json_encode(['status'=>200,'message'=>'Ok']);
+        
+    }
 }
