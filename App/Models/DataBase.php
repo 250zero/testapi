@@ -28,6 +28,15 @@ class DataBase{
         }
         return $result;
     }
+    
+    protected function executeInsertQuery($query)
+    {
+        $result = $this->conecction->query($query); 
+        if(!empty($result)){
+            print_r($this->conecction->error);  
+        }
+        return  $this->conecction->insert_id; 
+    }
     protected function closeConnection(){
         $this->conecction->close();
     }

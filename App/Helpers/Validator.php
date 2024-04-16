@@ -18,12 +18,10 @@ class Validator{
         $error_message = [];
 
         if(!empty($is_missing_models_key)){
-            $error_message .= 'Faltan los siguientes campos: ';
             foreach($is_missing_models_key as $missing){
                 $error_message[] =  "El parametro '$missing' es requerido";
             }
-        } 
-        echo $this->_max_length.' asas';
+        }  
         foreach($data as $propertie=>$propertie_value){
             if(!is_array( $data[$propertie] )){
                 $propertie_length = strlen($propertie_value); 

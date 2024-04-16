@@ -4,49 +4,20 @@ namespace App\Controllers;
 
  use  App\Helpers\Validator;
  use App\Models\ContactModel;
- 
+use App\Services\ContactServices;
+
 class ContactController{
+
     public function list(){
-        $contact_model = new ContactModel();
-        $result = $contact_model->getAll();
-        return ['status'=>200,'message'=>$result];
-        return json_encode([
-            [
-                'nombre'=>'adalberto',
-                'apellido'=>'turby',
-                'telefonos'=>
-                [
-                    '809-9998-9999',
-                    '5655666666',
-                    '568566865'
-                ]
-            ],
-            [
-                'nombre'=>'bony',
-                'apellido'=>'clade',
-                'telefonos'=>
-                [
-                    '809-9998-9999',
-                    '5655666666',
-                    '568566865'
-                ]
-            ],
-        ]);
+        $contact_services = new ContactServices();
+        $result = $contact_services->getAllActiveContact(); 
+
+        return ['status'=>200,'message'=>$result]; 
     }
     public function detail($data){
         $contact_model = new ContactModel();
         $result = $contact_model->getAll();
-        return ['status'=>200,'message'=>$result];
-        // return [
-        //     'nombre'=>'bony',
-        //     'apellido'=>'clade',
-        //     'telefonos'=>
-        //     [
-        //         '809-9998-9999',
-        //         '5655666666',
-        //         '568566865'
-        //     ]
-        //     ];
+        return ['status'=>200,'message'=>$result]; 
     }
     public function create($data){
         $validator = new Validator(); 
@@ -54,7 +25,14 @@ class ContactController{
         if(!empty($mensajes)){
             return  ['status'=>500,'message'=>$mensajes['message']];
         } 
+        $contact_services = new ContactServices();
+        $id = $contact_services->createContact($data);
+        if(!empty($id)){
+            return  ['status'=>201,'message'=>'Contacto Creado con exito'] ; 
+        }else{
+            return  ['status'=>500,'message'=>'Error al tratar de crear el contacto'] ; 
 
+        }
         return  ['status'=>200,'message'=>$data] ; 
     }
     public function addPhoneContact($data){
