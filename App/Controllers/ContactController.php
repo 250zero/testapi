@@ -1,5 +1,10 @@
 <?php 
 
+namespace App\Controllers;
+
+ use  App\Helpers\Validator;
+ use App\Models\ContactModel;
+ 
 class ContactController{
     public function list(){
         return json_encode([
@@ -25,8 +30,8 @@ class ContactController{
             ],
         ]);
     }
-    public function detail(){
-        return json_encode([
+    public function detail($data){
+        return [
             'nombre'=>'bony',
             'apellido'=>'clade',
             'telefonos'=>
@@ -35,17 +40,20 @@ class ContactController{
                 '5655666666',
                 '568566865'
             ]
-            ]);
+            ];
     }
-    public function create(){
-        return json_encode(['status'=>200,'message'=>'Ok']);
+    public function create($data){
+        $validator = new Validator(); 
+        $mensajes = $validator->validateModel(new ContactModel(),$data);
+        if(!empty($mensajes)){
+            return  ['status'=>500,'message'=>$mensajes['message']];
+        }
+        return  ['status'=>200,'message'=>$data] ; 
     }
-    public function update(){
-        return json_encode(['status'=>200,'message'=>'Ok']);
-        
+    public function addPhoneContact($data){
+        return  ['status'=>200,'message'=>'Ok']; 
     }
-    public function delete(){
-        return json_encode(['status'=>200,'message'=>'Ok']);
-        
+    public function delete($data){
+        return ['status'=>200,'message'=>'Ok']; 
     }
 }

@@ -1,15 +1,15 @@
 <?php
-
+ 
 return [
     '/contact/list' => [
-        'GET' => 'ContactController@list',
+        'GET' => '\App\Controllers\ContactController@list',
     ],
     '/contact/detail' => [
-        'GET' => 'ContactController@detail'
+        'GET' => '\App\Controllers\ContactController@detail'
     ],
     '/contact' => [
-        'POST' => 'ContactController@create',   
-        'PUT' => 'ContactController@update',
-        'DELETE' => 'ContactController@delete'
+        'POST' => '\App\Controllers\ContactController@create',   
+        'POST' => '\App\Controllers\ContactController@addPhoneContact',
+        'DELETE' => '\App\Controllers\ContactController@delete'
     ] 
 ];
