@@ -7,10 +7,9 @@ class Validator{
     private $_min_length;
 
     public function __construct()
-    {
-        $readEnvFile = new ReadEnvFile();
-        $this->_max_length=$readEnvFile->getEnvValueByKey("MAX_LENGTH");
-        $this->_min_length=$readEnvFile->getEnvValueByKey("MIN_LENGTH");
+    { 
+        $this->_max_length=ReadEnvFile::getEnvValueByKey("MAX_LENGTH");
+        $this->_min_length=ReadEnvFile::getEnvValueByKey("MIN_LENGTH");
     }
 
     public function validateModel($model,$data ){ 
@@ -24,7 +23,7 @@ class Validator{
                 $error_message[] =  "El parametro '$missing' es requerido";
             }
         } 
-
+        echo $this->_max_length.' asas';
         foreach($data as $propertie=>$propertie_value){
             if(!is_array( $data[$propertie] )){
                 $propertie_length = strlen($propertie_value); 

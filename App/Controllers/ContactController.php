@@ -7,6 +7,9 @@ namespace App\Controllers;
  
 class ContactController{
     public function list(){
+        $contact_model = new ContactModel();
+        $result = $contact_model->getAll();
+        return ['status'=>200,'message'=>$result];
         return json_encode([
             [
                 'nombre'=>'adalberto',
@@ -31,23 +34,27 @@ class ContactController{
         ]);
     }
     public function detail($data){
-        return [
-            'nombre'=>'bony',
-            'apellido'=>'clade',
-            'telefonos'=>
-            [
-                '809-9998-9999',
-                '5655666666',
-                '568566865'
-            ]
-            ];
+        $contact_model = new ContactModel();
+        $result = $contact_model->getAll();
+        return ['status'=>200,'message'=>$result];
+        // return [
+        //     'nombre'=>'bony',
+        //     'apellido'=>'clade',
+        //     'telefonos'=>
+        //     [
+        //         '809-9998-9999',
+        //         '5655666666',
+        //         '568566865'
+        //     ]
+        //     ];
     }
     public function create($data){
         $validator = new Validator(); 
         $mensajes = $validator->validateModel(new ContactModel(),$data);
         if(!empty($mensajes)){
             return  ['status'=>500,'message'=>$mensajes['message']];
-        }
+        } 
+
         return  ['status'=>200,'message'=>$data] ; 
     }
     public function addPhoneContact($data){
