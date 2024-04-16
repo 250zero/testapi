@@ -51,6 +51,14 @@ class ContactController
     }
     public function delete($data)
     {
-        return ['status'=>200,'message'=>'Ok']; 
+        $validator =new Validator();
+        $message_error = $validator->validateInputs($data,['id_contact']);
+        if(!empty($message_error)){
+            return  ['status'=>500,'message'=>$message_error['message']];
+        }
+        $id_contact =$data['id_contact'];
+        $contact_services = new ContactServices();
+        $result = $contact_services->deleteContact($id_contact);
+        return ['status'=>200,'message'=>$result]; 
     }
 }

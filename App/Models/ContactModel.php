@@ -7,6 +7,7 @@ class ContactModel extends DataBase{
     public $last_name;
     public $email;
     public $telephones;
+    public $status;
     public $require_filds = [
         'name',
         'last_name', 
@@ -29,19 +30,17 @@ class ContactModel extends DataBase{
             $query .= " WHERE ".implode(' AND ', $conditionsStrings);
         }  
         $result =  $this->execQuery($query);
-        $this->closeConnection();
         return $result;
     }
     public function save(){
-        $attributes = [ 'name'=>$this->name,'last_name'=>$this->last_name,'email'=>$this->email];
+        $attributes = [ 'name'=>$this->name,'last_name'=>$this->last_name,'email'=>$this->email,'status'=>$this->status];
 
         if(!empty($this->id_contact)){
             foreach ($attributes as $key => $value) {
                 $conditionsUpdate[] = "$key = '$value'";
             }
             $query = 'UPDATE contact set '.implode(',', $conditionsUpdate).' WHERE id_contact = '.$this->id_contact; 
-            $result =  $this->execQuery($query);
-            $this->closeConnection();
+            $result =  $this->execQuery($query); 
             return $result;
         }else{
             foreach ($attributes as $key => $value) {
@@ -50,7 +49,6 @@ class ContactModel extends DataBase{
             }
             $query = 'INSERT INTO contact ('.implode(',',array_keys($attributes)).',status) values ('.implode(',', $conditionsInsert).',1)'; 
             $this->id_contact =  $this->executeInsertQuery($query);
-            $this->closeConnection();
             return $this->id_contact;
         }
     }
@@ -58,7 +56,9 @@ class ContactModel extends DataBase{
     public function delete(){
         $query = 'DELETE FROM contact WHERE id_contact = '.$this->id_contact;
         $result =  $this->execQuery($query);
-        $this->closeConnection();
         return $result;
+    }
+    public function closeConecction(){
+        $this->closeConecction();
     }
 }
