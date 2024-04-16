@@ -47,7 +47,16 @@ class ContactController
     }
     public function addPhoneContact($data)
     {
-        return  ['status'=>200,'message'=>'Ok']; 
+        $validator =new Validator();
+        $message_error = $validator->validateInputs($data,['id_contact','phone']);
+        if(!empty($message_error)){
+            return  ['status'=>500,'message'=>$message_error['message']];
+        }
+        $id_contact =$data['id_contact'];
+        $phone =$data['phone'];
+        $contact_services = new ContactServices();
+        $result = $contact_services->addPhoneContact($id_contact,$phone);
+        return ['status'=>200,'message'=>$result];  
     }
     public function delete($data)
     {

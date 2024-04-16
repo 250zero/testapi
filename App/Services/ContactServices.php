@@ -103,4 +103,21 @@ class ContactServices
         }
         return 'El contacto no pudo ser eliminado';
     }
+
+    public function addPhoneContact($id_contact,$phone)
+    {
+        $telephone = new TelephoneModel();
+        $contact = new ContactModel();
+        $resultContact =  $contact->getAll([], ['id_contact' => $id_contact]);
+        if(!empty($resultContact->fetch_assoc())){ 
+            $telephone->id_contact = $id_contact;
+            $telephone->phone_number = $phone;
+            $result = $telephone->save();
+        }
+        if(!empty($result)){
+            return 'Telefono agregado';
+        }else{
+            return 'El Telefono no pudo agregado'; 
+        }
+    }
 }
