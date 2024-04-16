@@ -9,14 +9,12 @@ Para la creacion de un contacto:
 Descripcion: Crea un contacto con sus numeros telefonicos
 EndPoint : /contact
 Metodo: POST
-Parametros / Body: {
-        "name": "adalberto",   ---- requerido
-        "last_name": "turby", ---- requerido
-        "email": "email",     ---- requerido
-        "telephone": [
-            "343434343434",
-             "829-759-66699"
-        ]
+Parametros / Body:
+{
+"name": "adalberto",   ---- requerido
+"last_name": "turby", ---- requerido
+"email": "email",     ---- requerido 
+"telephone": ["343434343434","829-759-66699"]
 }
 
 Descripcion: Agrega un numero telefonico a un contacto
@@ -24,8 +22,7 @@ EndPoint : /contact/add-phone
 Metodo: POST
 Parametros / Body: {
         "phone": "829-666-6666",   ---- requerido
-        "id_contact": "10", ---- requerido
-         
+        "id_contact": "10", ---- requerido         
 }
 
 Descripcion: Elimina segun configuracion por delete o por estado
