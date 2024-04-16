@@ -2,7 +2,8 @@
 namespace App\Helpers;
 
 
-class Validator{
+class Validator
+{
     private $_max_length;
     private $_min_length;
 
@@ -12,7 +13,8 @@ class Validator{
         $this->_min_length=ReadEnvFile::getEnvValueByKey("MIN_LENGTH");
     }
 
-    public function validateModel($model,$data ){ 
+    public function validateModel($model,$data )
+    { 
         $model_properties_key = $model->require_filds;
         $is_missing_models_key = array_diff($model_properties_key,array_keys($data));
         $error_message = [];
@@ -41,5 +43,27 @@ class Validator{
         if(!empty($error_message)){ 
             return ['status'=>false,'message'=>$error_message];
         } 
+    }
+    public function validateInputs($data,$option)
+    {
+        $error_message =[];
+        $is_missing_models_key = array_diff($option,array_keys($data));
+        
+        if(!empty($is_missing_models_key)){
+            foreach($is_missing_models_key as $missing){
+                $error_message[] =  "El parametro '$missing' es requerido";
+            }
+        }
+        foreach($data as $propertie=>$propertie_value){ 
+                $propertie_length = strlen($propertie_value); 
+                if($propertie_length <= $this->_min_length || $propertie_length >= $this->_max_length){
+                    $error_message[] = "El parametro  '{$propertie}' con el valor '{$propertie_value}' no cumple con la logintud adecuada";
+                }  
+        }
+        
+        if(!empty($error_message)){ 
+            return ['status'=>false,'message'=>$error_message];
+        } 
+
     }
 }

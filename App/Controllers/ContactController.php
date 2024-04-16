@@ -3,27 +3,37 @@
 namespace App\Controllers;
 
  use  App\Helpers\Validator;
- use App\Models\ContactModel;
+use App\Models\ContactModel;
 use App\Services\ContactServices;
 
-class ContactController{
+class ContactController
+{
 
-    public function list(){
+    public function list()
+    {
         $contact_services = new ContactServices();
         $result = $contact_services->getAllActiveContact(); 
 
         return ['status'=>200,'message'=>$result]; 
     }
-    public function detail($data){
-        $contact_model = new ContactModel();
-        $result = $contact_model->getAll();
+    public function detail($data)
+    {
+        $validator =new Validator();
+        $message_error = $validator->validateInputs($data,['id_contact']);
+        if(!empty($message_error)){
+            return  ['status'=>500,'message'=>$message_error['message']];
+        }
+        $id_contact =$data['id_contact'];
+        $contact_services = new ContactServices();
+        $result = $contact_services->getDetailContact($id_contact);
         return ['status'=>200,'message'=>$result]; 
     }
-    public function create($data){
+    public function create($data)
+    {
         $validator = new Validator(); 
-        $mensajes = $validator->validateModel(new ContactModel(),$data);
-        if(!empty($mensajes)){
-            return  ['status'=>500,'message'=>$mensajes['message']];
+        $message_error = $validator->validateModel(new ContactModel(),$data);
+        if(!empty($message_error)){
+            return  ['status'=>500,'message'=>$message_error['message']];
         } 
         $contact_services = new ContactServices();
         $id = $contact_services->createContact($data);
@@ -35,10 +45,12 @@ class ContactController{
         }
         return  ['status'=>200,'message'=>$data] ; 
     }
-    public function addPhoneContact($data){
+    public function addPhoneContact($data)
+    {
         return  ['status'=>200,'message'=>'Ok']; 
     }
-    public function delete($data){
+    public function delete($data)
+    {
         return ['status'=>200,'message'=>'Ok']; 
     }
 }

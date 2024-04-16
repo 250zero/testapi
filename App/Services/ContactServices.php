@@ -12,22 +12,51 @@ class ContactServices
         $contact = new ContactModel();
         $resultContact =  $contact->getAll([], ['status' => 1]);
         $result = [];
-        while ($row = $resultContact->fetch_assoc()) {
-            $telephone = new TelephoneModel();
-            $resultPhone = $telephone->getAllTelephoneContact([], ['id_contact' => $row['id_contact']]);
-            $resultPhoneContact = [];
+        if (!empty($resultContact)) {
 
-            while ($rowPhone = $resultPhone->fetch_assoc()) {
-                $resultPhoneContact[] = $rowPhone['phone_number'];
+            while ($row = $resultContact->fetch_assoc()) {
+                $telephone = new TelephoneModel();
+                $resultPhone = $telephone->getAllTelephoneContact([], ['id_contact' => $row['id_contact']]);
+                $resultPhoneContact = [];
+
+                while ($rowPhone = $resultPhone->fetch_assoc()) {
+                    $resultPhoneContact[] = $rowPhone['phone_number'];
+                }
+
+                $result[] = [
+                    'name' => $row['name'],
+                    'last_name' => $row['last_name'],
+                    'email' => $row['email'],
+                    'telephone' => $resultPhoneContact
+                ];
             }
-
-            $result[] = [
-                'name' => $row['name'],
-                'last_name' => $row['last_name'],
-                'email' => $row['email'],
-                'telephone' => $resultPhoneContact
-            ];
         }
+        return $result;
+    }
+    public function getDetailContact($id_contact)
+    {
+        $contact = new ContactModel();
+        $resultContact =  $contact->getAll([], ['id_contact' => $id_contact]);
+        $result = [];
+        if (!empty($resultContact)) {
+            while ($row = $resultContact->fetch_assoc()) {
+                $telephone = new TelephoneModel();
+                $resultPhone = $telephone->getAllTelephoneContact([], ['id_contact' => $id_contact]);
+                $resultPhoneContact = [];
+
+                while ($rowPhone = $resultPhone->fetch_assoc()) {
+                    $resultPhoneContact[] = $rowPhone['phone_number'];
+                }
+
+                $result  = [
+                    'name' => $row['name'],
+                    'last_name' => $row['last_name'],
+                    'email' => $row['email'],
+                    'telephone' => $resultPhoneContact
+                ];
+            }
+        }
+
         return $result;
     }
     public function createContact($data)
