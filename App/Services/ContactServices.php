@@ -25,6 +25,7 @@ class ContactServices
                 }
 
                 $result[] = [
+                    'id_contact' => $row['id_contact'],
                     'name' => $row['name'],
                     'last_name' => $row['last_name'],
                     'email' => $row['email'],
